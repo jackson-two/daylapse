@@ -1,0 +1,15 @@
+{
+  "workerName": "daylapse",
+  "accountId": "00000000000000000000000000000000",
+  "databaseName": "daylapse",
+  "databaseId": "00000000-0000-0000-0000-000000000000",
+  "settings": {
+    "familyHostname": "daylapse.example.com",
+    "displayHostname": "",
+    "accessTeamDomain": "your-team.cloudflareaccess.com",
+    "accessAudience": "",
+    "timeZone": "UTC",
+    "notifications": false,
+    "localDevelopment": false
+  }
+}

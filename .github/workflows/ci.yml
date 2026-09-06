@@ -1,0 +1,25 @@
+name: Checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+      WRANGLER_LOG_PATH: .wrangler/wrangler.log
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run privacy:check
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
