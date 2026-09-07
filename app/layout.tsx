@@ -30,13 +30,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Daylapse",
       description: "Track household tasks and important dates.",
       type: "website",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Daylapse" }],
+      images: [{ url: "/og.png?v=2", width: 1280, height: 640, alt: "Daylapse — Household tasks. Important dates. Together." }],
     },
     twitter: {
       card: "summary_large_image",
       title: "Daylapse",
       description: "Track household tasks and important dates.",
-      images: ["/og.png"],
+      images: ["/og.png?v=2"],
     },
   };
 }
