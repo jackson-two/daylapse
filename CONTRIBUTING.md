@@ -17,12 +17,16 @@ npm test
 npm run privacy:check
 ```
 
-Keep both lockfiles consistent when changing dependencies. Wrangler 4.129.0 and
-the Cloudflare Vite plugin 1.54.4 share workerd 1.20260903.1. Miniflare and esbuild
+Keep both lockfiles consistent when changing dependencies. Wrangler 4.137.0 and
+the Cloudflare Vite plugin 1.58.0 share workerd 1.20260921.1. Miniflare and esbuild
 are explicit test dependencies. Tests read compatibility settings from the local
 `wrangler.jsonc`; an unsupported runtime date must fail rather than silently use
 older behavior. Regenerate binding types using `npx wrangler types`. Optional
 push secrets are separately typed in `env.d.ts`.
+
+The npm and pnpm overrides keep vinext's image-size dependency on the patched
+2.0.4 release without changing frameworks. Keep these overrides in sync; remove
+both when a tested vinext update includes a patched image-size dependency.
 
 ## Repository map
 

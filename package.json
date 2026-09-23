@@ -26,15 +26,15 @@
     "drizzle-orm": "0.45.2",
     "jose": "6.2.12",
     "next": "16.3.4",
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.54.4",
-    "@tailwindcss/postcss": "4.2.1",
+    "@cloudflare/vite-plugin": "1.58.0",
+    "@tailwindcss/postcss": "4.3.3",
     "@types/node": "22.19.19",
-    "@types/react": "19.2.14",
+    "@types/react": "19.2.18",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
@@ -42,14 +42,24 @@
     "esbuild": "0.28.1",
     "eslint": "9.39.4",
     "eslint-config-next": "16.3.4",
-    "miniflare": "5.20260903.0-alpha",
-    "react-server-dom-webpack": "19.2.6",
-    "tailwindcss": "4.2.1",
-    "tsx": "^4.22.1",
+    "miniflare": "5.20260921.0-alpha",
+    "react-server-dom-webpack": "19.2.8",
+    "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
-    "vite": "8.0.13",
-    "wrangler": "4.129.0"
+    "vite": "8.2.2",
+    "wrangler": "4.137.0"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "vinext": {
+      "image-size": "2.0.4"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "vinext>image-size": "2.0.4"
+    }
+  }
 }

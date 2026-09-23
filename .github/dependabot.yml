@@ -5,6 +5,23 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns:
+          - react
+          - react-dom
+          - react-server-dom-webpack
+          - '@types/react'
+          - '@types/react-dom'
+      cloudflare:
+        patterns:
+          - '@cloudflare/vite-plugin'
+          - wrangler
+          - miniflare
+      tailwind:
+        patterns:
+          - tailwindcss
+          - '@tailwindcss/*'
   - package-ecosystem: github-actions
     directory: /
     schedule:
