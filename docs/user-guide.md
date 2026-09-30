@@ -22,8 +22,9 @@ that was not sent to the browser.
 **Manage items**, in the Daylapse menu, lists hidden, archived, and deleted items. Each item independently
 controls dashboard visibility, DAKboard visibility, and inclusion in due-today
 notifications. Archiving or deleting suppresses all three destinations. Deletion
-is recoverable. The optional dashboard window limits how far ahead it appears;
-celebrations default to 60 days.
+is recoverable. Holidays, birthdays, and anniversaries appear all year when
+**Show on dashboard** is enabled. Other items can use an optional dashboard
+window to limit how far ahead they appear.
 
 The old household JSON and its revisions are retained as read-only recovery
 copies. Old `/api/items` requests return HTTP 410 with a reload instruction;
