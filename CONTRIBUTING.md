@@ -28,6 +28,11 @@ The npm and pnpm overrides keep vinext's image-size dependency on the patched
 2.0.4 release without changing frameworks. Keep these overrides in sync; remove
 both when a tested vinext update includes a patched image-size dependency.
 
+Matching overrides pin Miniflare's undici to 7.30.0 to address the September
+2026 security advisories without changing the shared workerd version. Keep the
+npm and pnpm overrides aligned; remove them when the tested Cloudflare toolchain
+depends on a patched undici itself. CI includes `npm audit --audit-level=high`.
+
 ## Repository map
 
 - `app/`: household UI, display, routes, styles, and PWA metadata.

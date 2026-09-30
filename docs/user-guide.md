@@ -1,5 +1,8 @@
 # Using Daylapse
 
+Progress rings follow the selected color theme. Due and overdue text and status
+markers continue to indicate urgency independently of the ring color.
+
 ## Data safety
 
 The API never substitutes demo data when a read fails. Items live in `events`;
@@ -144,7 +147,7 @@ devices. Regression tests cover loading and refreshing without
 - **Limited item list:** up to 10 unarchived recurring items in **Household** and
   10 unarchived fixed dates in **Events**, ordered by calculated due date. There
   is no pagination or automatic rotation through additional items. The Events
-  column does not use the family dashboard's celebration visibility window.
+  column does not use dashboard visibility windows.
 - **Layout:** dark-purple theme, with two columns above 760 CSS pixels and one
   column at narrower widths. Scrollbars are hidden. Content can extend below the
   visible area; there is no automatic scrolling or scaling to fit every item.
@@ -204,15 +207,20 @@ apply migrations normally; do not rerun the legacy row import/cutover.
 
 The installed Home Screen app uses the same web UI as the browser. Touch-device
 form controls use at least 16px text to avoid small-field focus zoom. Opening Add
-or Edit does not automatically focus a field on any device. Panel sizing follows
-the visible viewport when the keyboard appears; it no longer forces a delayed
-second scroll. Screen navigation on touch devices avoids smooth scrolling, and
+or Edit does not automatically focus a field on any device. Labels and descriptions
+sit beside the editable controls. Panel height follows the visible viewport when
+the keyboard appears, while the background stays locked; the panel does not
+follow Safari's focus-scroll offsets or force a delayed second scroll.
+Screen navigation on touch devices avoids smooth scrolling, and
 closing the panel dismisses the focused form control. Button taps suppress
 accidental double-tap zoom while pinch-to-zoom remains available.
 
 These changes target unwanted zoom, not the device's accessibility magnification.
 The app does not lock orientation; use the phone's Portrait Orientation Lock if
-needed. Physical iPhone verification is still needed for the latest zoom fix.
+needed. Form layout, touch-keyboard entry, and item creation were checked in the
+iPhone 18 Pro simulator. Physical iPhone verification is still needed.
+If the simulator suppresses its keyboard, turn off hardware-keyboard simulation
+before testing touch entry.
 If a menu still selects a field immediately, fully close and reopen Daylapse to
 load the deployed JavaScript before troubleshooting further. There is no need to
 delete/reinstall the app or reconnect notifications for an ordinary deployment.
