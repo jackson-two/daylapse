@@ -40,9 +40,14 @@ claim offline editing, per-person permissions, or native DAKboard integration.
   is visible on the public Security page. The maintainer's personal account has
   administrator access through organization ownership. Secret scanning and push
   protection are enabled.
-- Build, lint, TypeScript, and 81 automated tests passed.
+- Build, lint, TypeScript, and 82 automated tests passed for the dashboard/mobile
+  update. Simulator checks covered touch-keyboard entry, item creation, and
+  enabled annual dates more than 60 days away. Physical-device checks remain open.
 - The production dependency audit reports zero known vulnerabilities at the time
   of this check; development-tool dependencies are outside that audit scope.
+  The September 30 cleanup patches Next.js and Miniflare's undici dependency.
+  The full audit still reports four moderate findings in Drizzle Kit's legacy
+  esbuild dependency chain; these are below CI's high-severity threshold.
 - Documented local setup initialized a fresh D1 database and preserved it on a
   second initialization. A synthetic task and completion round-tripped through
   the running app's HTTP API. The display omitted private notes/history.
@@ -69,9 +74,13 @@ claim offline editing, per-person permissions, or native DAKboard integration.
   persistence after reload. A second tab using the same approved owner's session
   saved an edit that the first tab saw after reload. This verifies separate
   clients; admission of a different household member remains untested.
-- Live birthday settings retained disabled visibility/notification flags and a
-  zero-day dashboard window after reload; the birthday was omitted from the
+- During the earlier deployment rehearsal, birthday settings retained disabled
+  visibility/notification flags and a zero-day dashboard window after reload;
+  the birthday was omitted from the
   dashboard. An anniversary retained its blank, unlimited dashboard window.
+  The subsequent dashboard update preserves these stored values but ignores
+  annual-date windows; enabled annual dates now appear year-round. This update
+  has not been deployed as part of the repository cleanup.
 - With synthetic records present, repeating the remote migration check, guarded
   initializer, and deployment preserved all three records and task completion
   history. No pending schema migrations existed for this rehearsal. The synthetic

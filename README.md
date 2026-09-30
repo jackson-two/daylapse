@@ -78,6 +78,8 @@ Cloudflare usage and any purchased domain may incur costs. Review current
 npm run lint
 npx tsc --noEmit
 npm test
+npm run privacy:check
+npm audit --audit-level=high
 ```
 
 Tests use disposable local databases and fake push services; they need loopback

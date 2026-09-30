@@ -11,6 +11,9 @@ export function dashboardWindowDays(item: TrackedItem): number | null {
 
 export function isDashboardVisible(item: TrackedItem, day: Date): boolean {
   if (item.archived || item.deletedAt || item.showOnDashboard === false) return false;
+  // Annual occasions stay discoverable year-round. The explicit destination
+  // switch above still controls whether the household wants to see them.
+  if (item.source) return true;
   const window = dashboardWindowDays(item);
   return window === null || daysBetween(day, dueDate(item, day)) <= window;
 }

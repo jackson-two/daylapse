@@ -11,6 +11,7 @@ import { annualEditDate, applyItemEdit, normalizeStoredItem, recordCompletion, r
 import { fetchCsvExport, type CsvExportKind } from "@/lib/csv-export";
 import type { HistoryEntry, HolidayKey, TrackedItem, Unit, WeekdayRule } from "@/lib/household-schema";
 
+import { FormField } from "./components/form-field";
 import { HolidayScheduleFields } from "./holiday-schedule-fields";
 
 type Screen = "manage" | "dashboard" | "holidays" | "celebrations" | "notifications";
@@ -262,7 +263,7 @@ export default function Home() {
   const [celebrationDate, setCelebrationDate] = useState(toISO(addDays(today(), 30)));
   const [celebrationNotes, setCelebrationNotes] = useState("");
   const [celebrationSettings, setCelebrationSettings] = useState<Pick<TrackedItem, "showOnDashboard" | "showOnDisplay" | "notifyDueToday" | "showOnMainWithinDays">>({
-    showOnDashboard: true, showOnDisplay: true, notifyDueToday: true, showOnMainWithinDays: 60,
+    showOnDashboard: true, showOnDisplay: true, notifyDueToday: true, showOnMainWithinDays: null,
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const [exporting, setExporting] = useState<CsvExportKind | null>(null);
@@ -370,28 +371,32 @@ export default function Home() {
     if (!panelOpen) return;
     const root = document.documentElement;
     const viewport = window.visualViewport;
-    const previousOverflow = document.body.style.overflow;
+    const body = document.body;
+    const scrollY = window.scrollY;
+    const previous = { overflow: body.style.overflow, position: body.style.position, top: body.style.top, width: body.style.width };
 
     const updatePanelViewport = () => {
-      root.style.setProperty("--panel-viewport-height", `${viewport?.height ?? window.innerHeight}px`);
-      root.style.setProperty("--panel-viewport-top", `${viewport?.offsetTop ?? 0}px`);
+      // Resize the scrollable sheet, not its position. Following visualViewport
+      // scroll offsets feeds Safari's focus scrolling back into the layout.
+      if (!viewport || viewport.scale === 1) {
+        root.style.setProperty("--panel-viewport-height", `${viewport?.height ?? window.innerHeight}px`);
+      }
     };
 
-    // Let the browser reveal focused fields itself. A second delayed scroll
-    // competes with iOS keyboard scrolling and can move the underlying page.
-    document.body.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
     updatePanelViewport();
     viewport?.addEventListener("resize", updatePanelViewport);
-    viewport?.addEventListener("scroll", updatePanelViewport);
     window.addEventListener("orientationchange", updatePanelViewport);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      Object.assign(body.style, previous);
       viewport?.removeEventListener("resize", updatePanelViewport);
-      viewport?.removeEventListener("scroll", updatePanelViewport);
       window.removeEventListener("orientationchange", updatePanelViewport);
       root.style.removeProperty("--panel-viewport-height");
-      root.style.removeProperty("--panel-viewport-top");
+      window.scrollTo({ top: scrollY, behavior: "instant" });
     };
   }, [panelOpen]);
 
@@ -478,7 +483,7 @@ export default function Home() {
       history: [],
       source: "holiday",
       holidayKey: definition.key,
-      showOnMainWithinDays: 60,
+      showOnMainWithinDays: null,
       createdAt: toISO(today()),
     }]);
   }
@@ -498,7 +503,7 @@ export default function Home() {
       reminderDays: 30,
       history: [],
       source: "holiday",
-      showOnMainWithinDays: 60,
+      showOnMainWithinDays: null,
       createdAt: toISO(today()),
     }]);
     setHolidayName("");
@@ -826,7 +831,7 @@ export default function Home() {
                   <label className="check-label"><input type="checkbox" checked={celebrationSettings.showOnDashboard !== false} onChange={(e) => setCelebrationSettings({...celebrationSettings,showOnDashboard:e.target.checked})} /> Show on dashboard</label>
                   <label className="check-label"><input type="checkbox" checked={celebrationSettings.showOnDisplay !== false} onChange={(e) => setCelebrationSettings({...celebrationSettings,showOnDisplay:e.target.checked})} /> Show on DAKboard</label>
                   <label className="check-label"><input type="checkbox" checked={celebrationSettings.notifyDueToday !== false} onChange={(e) => setCelebrationSettings({...celebrationSettings,notifyDueToday:e.target.checked})} /> Include in due-today notifications</label>
-                  <label>Dashboard window (days)<input type="number" min="0" max="3650" placeholder="No limit" value={celebrationSettings.showOnMainWithinDays ?? ""} onChange={(e) => setCelebrationSettings({...celebrationSettings,showOnMainWithinDays:e.target.value === "" ? null : Number(e.target.value)})} /></label>
+                  <p className="field-help">Enabled dates appear on the dashboard all year.</p>
                 </fieldset>
                 <label>Notes <span>Optional</span><input value={celebrationNotes} onChange={(e) => setCelebrationNotes(e.target.value)} placeholder="Gift ideas or plans" /></label>
                 <button className="primary-action" type="submit">Add date</button>
@@ -904,31 +909,42 @@ export default function Home() {
 
             {!readOnly && (mode === "add" || mode === "edit") && (
               <form onSubmit={saveDraft} className="item-form">
-                <div className="panel-heading"><h2 id="panel-title">{mode === "add" ? "Add an item" : `Edit ${draft.title}`}</h2></div>
-                {!draft.source && <label>Verb<input required value={draft.verb || ""} onChange={(e) => setDraft({ ...draft, verb: e.target.value })} placeholder="e.g. Clean" /></label>}
-                <label>{draft.source ? "Name" : "Object / noun"}<input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder={draft.source ? "Celebration name" : "e.g. Dryer vent"} /></label>
-                {!draft.source && <fieldset><legend>Item type</legend><div className="segmented"><button type="button" className={draft.type === "recurring" ? "active" : ""} onClick={() => setDraft({ ...draft, type: "recurring" })}>Recurring interval</button><button type="button" className={draft.type === "fixed" ? "active" : ""} onClick={() => setDraft({ ...draft, type: "fixed" })}>Fixed date</button></div></fieldset>}
+                <div className="panel-heading"><h2 id="panel-title">{mode === "add" ? "Add an item" : "Edit item"}</h2></div>
+                {!draft.source && <FormField id="item-verb" label="Verb" description="The action you’ll take.">
+                  <input id="item-verb" aria-describedby="item-verb-hint" required value={draft.verb || ""} onChange={(e) => setDraft({ ...draft, verb: e.target.value })} placeholder="e.g. Clean" />
+                </FormField>}
+                <FormField id="item-title" label={draft.source ? "Name" : "Object / noun"} description={draft.source ? "The person or occasion to remember." : "What you’ll take care of."}>
+                  <input id="item-title" aria-describedby="item-title-hint" required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} placeholder={draft.source ? "e.g. A friend’s birthday" : "e.g. Dryer vent"} />
+                </FormField>
+                {!draft.source && <div className="form-field">
+                  <div className="form-field__copy"><strong>Schedule</strong><p>Repeat a task or count down to a date.</p></div>
+                  <div className="segmented" role="group" aria-label="Item type"><button type="button" aria-pressed={draft.type === "recurring"} className={draft.type === "recurring" ? "active" : ""} onClick={() => setDraft({ ...draft, type: "recurring" })}>Recurring</button><button type="button" aria-pressed={draft.type === "fixed"} className={draft.type === "fixed" ? "active" : ""} onClick={() => setDraft({ ...draft, type: "fixed" })}>Fixed date</button></div>
+                </div>}
                 {draft.type === "recurring" ? (
                   <>
-                    <fieldset><legend>Repeat every</legend><div className="field-pair"><input type="number" min="1" required value={draft.intervalValue} onChange={(e) => setDraft({ ...draft, intervalValue: Number(e.target.value) })} aria-label="Interval amount" /><select value={draft.intervalUnit} onChange={(e) => setDraft({ ...draft, intervalUnit: e.target.value as Unit })} aria-label="Interval unit"><option value="days">days</option><option value="weeks">weeks</option><option value="months">months</option><option value="years">years</option></select></div></fieldset>
-                    <label>Last completed<input type="date" required value={draft.lastCompleted} max={toISO(today())} onChange={(e) => setDraft({ ...draft, lastCompleted: e.target.value })} /></label>
+                    <FormField id="item-interval" label="Repeat every" description="Time between completions.">
+                      <div className="field-pair"><input id="item-interval" aria-describedby="item-interval-hint" aria-label="Interval amount" type="number" inputMode="numeric" min="1" required value={draft.intervalValue} onChange={(e) => setDraft({ ...draft, intervalValue: Number(e.target.value) })} /><select value={draft.intervalUnit} onChange={(e) => setDraft({ ...draft, intervalUnit: e.target.value as Unit })} aria-label="Interval unit"><option value="days">days</option><option value="weeks">weeks</option><option value="months">months</option><option value="years">years</option></select></div>
+                    </FormField>
+                    <FormField id="item-completed" label="Last completed" description="When you last did this."><input id="item-completed" aria-describedby="item-completed-hint" type="date" required value={draft.lastCompleted} max={toISO(today())} onChange={(e) => setDraft({ ...draft, lastCompleted: e.target.value })} /></FormField>
                   </>
                 ) : draft.source ? (
                   draft.holidayKey
-                    ? <label>Month and day <span>Set by the holiday calendar</span><input value={formatMonthDayDate(dueDate(draft))} disabled /></label>
+                    ? <FormField id="item-date" label="Month and day" description="Set by the holiday calendar."><input id="item-date" value={formatMonthDayDate(dueDate(draft))} disabled /></FormField>
                     : draft.source === "holiday" ? <HolidayScheduleFields date={draft.targetDate || "2000-01-01"} rule={draft.weekdayRule} onChange={(date, rule) => setDraft({ ...draft, weekdayRule: rule, targetDate: rule ? undefined : date, monthDay: rule ? undefined : date.slice(5) })} />
-                    : <label>Month and day <span>Year is not saved</span><input type="date" required value={draft.targetDate || ""} onChange={(e) => setDraft({ ...draft, targetDate: e.target.value })} /></label>
+                    : <FormField id="item-date" label="Month and day" description="Repeats each year. The year isn’t saved."><input id="item-date" aria-describedby="item-date-hint" type="date" required value={draft.targetDate || ""} onChange={(e) => setDraft({ ...draft, targetDate: e.target.value })} /></FormField>
                 ) : (
-                  <><label>Target date<input type="date" required value={draft.targetDate || ""} onChange={(e) => setDraft({ ...draft, targetDate: e.target.value })} /></label><label className="check-label"><input type="checkbox" checked={!!draft.annual} onChange={(e) => setDraft({ ...draft, annual: e.target.checked })} /> Repeat annually</label></>
+                  <><FormField id="item-date" label="Target date" description="The date you’re counting down to."><input id="item-date" aria-describedby="item-date-hint" type="date" required value={draft.targetDate || ""} onChange={(e) => setDraft({ ...draft, targetDate: e.target.value })} /></FormField><label className="check-label"><input type="checkbox" checked={!!draft.annual} onChange={(e) => setDraft({ ...draft, annual: e.target.checked })} /> Repeat annually</label></>
                 )}
-                <div className="field-pair"><label>Category <span>Optional</span><input value={draft.category || ""} onChange={(e) => setDraft({ ...draft, category: e.target.value })} placeholder="Home systems" /></label><label>Highlight when<input type="number" min="0" value={draft.reminderDays} onChange={(e) => setDraft({ ...draft, reminderDays: Number(e.target.value) })} /><small>days remain</small></label></div>
-                <fieldset><legend>Visibility and notifications</legend>
+                <FormField id="item-category" label="Category" description="Optional. A group for this item."><input id="item-category" aria-describedby="item-category-hint" value={draft.category || ""} onChange={(e) => setDraft({ ...draft, category: e.target.value })} placeholder="e.g. Home systems" /></FormField>
+                <FormField id="item-highlight" label="Highlight when" description="How many days before it’s due."><input id="item-highlight" aria-describedby="item-highlight-hint" type="number" inputMode="numeric" min="0" required value={draft.reminderDays} onChange={(e) => setDraft({ ...draft, reminderDays: Number(e.target.value) })} /></FormField>
+                <fieldset className="visibility-fields"><legend>Visibility and notifications</legend>
                   <label className="check-label"><input type="checkbox" checked={draft.showOnDashboard !== false} onChange={(e) => setDraft({...draft,showOnDashboard:e.target.checked})} /> Show on dashboard</label>
                   <label className="check-label"><input type="checkbox" checked={draft.showOnDisplay !== false} onChange={(e) => setDraft({...draft,showOnDisplay:e.target.checked})} /> Show on DAKboard</label>
                   <label className="check-label"><input type="checkbox" checked={draft.notifyDueToday !== false} onChange={(e) => setDraft({...draft,notifyDueToday:e.target.checked})} /> Include in due-today notifications</label>
-                  <label>Dashboard window (days)<input type="number" min="0" max="3650" placeholder="No limit" value={draft.showOnMainWithinDays ?? ""} onChange={(e) => setDraft({...draft,showOnMainWithinDays:e.target.value === "" ? null : Number(e.target.value)})} /></label>
+                  {!draft.source && <FormField id="item-window" label="Dashboard window" description="Days ahead to show. Leave blank for all year."><input id="item-window" aria-describedby="item-window-hint" type="number" inputMode="numeric" min="0" max="3650" placeholder="No limit" value={draft.showOnMainWithinDays ?? ""} onChange={(e) => setDraft({...draft,showOnMainWithinDays:e.target.value === "" ? null : Number(e.target.value)})} /></FormField>}
+                  {draft.source && <p className="field-help">Enabled dates appear on the dashboard all year.</p>}
                 </fieldset>
-                <label>Notes <span>Optional</span><textarea value={draft.notes || ""} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} placeholder="Model numbers, supplies, or reminders" /></label>
+                <FormField id="item-notes" label="Notes" description="Optional. Details to help next time."><textarea id="item-notes" aria-describedby="item-notes-hint" value={draft.notes || ""} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} placeholder="e.g. Supplies or model number" /></FormField>
                 <div className="form-actions"><button type="button" onClick={mode === "edit" ? () => setMode("detail") : closePanel}>Cancel</button><button className="primary-action" type="submit">{mode === "add" ? "Add item" : "Save changes"}</button></div>
               </form>
             )}

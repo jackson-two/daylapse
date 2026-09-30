@@ -63,8 +63,10 @@ that object is an adapter format, not another JSON household storage column.
 
 `show_on_dashboard`, `show_on_display`, and `notify_due_today` are independent.
 `archived_at` or `deleted_at` suppresses all three destinations. A nullable
-`dashboard_window_days` controls the upcoming dashboard window; it does not
-limit DAKboard or notification eligibility. `highlight_within_days` controls
+`dashboard_window_days` controls the upcoming dashboard window for ordinary
+items. Holidays, birthdays, and anniversaries ignore this window and remain
+visible year-round when enabled; their legacy stored values are preserved.
+The window does not limit DAKboard or notification eligibility. `highlight_within_days` controls
 visual urgency, not advance push notifications. Neither visibility nor a date
 calculation changes the stored schedule.
 

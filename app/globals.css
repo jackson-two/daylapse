@@ -302,11 +302,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .cycle::after { content: attr(data-tip); position: absolute; z-index: 10; left: 50%; bottom: calc(100% + 9px); transform: translateX(-50%); width: max-content; max-width: 230px; padding: 7px 9px; background: var(--action-bg); color: var(--action-fg); border-radius: 3px; font-size: 11px; letter-spacing: 0; text-transform: none; opacity: 0; pointer-events: none; transition: opacity .15s; }
 .cycle:hover::after, .cycle:focus-visible::after { opacity: 1; }
 .primary-donut { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.donut { --progress: 0deg; --overrun-progress: 0deg; --status: var(--normal); border-radius: 50%; background: conic-gradient(var(--status) var(--progress), var(--track) 0); position: relative; display: grid; place-items: center; }
+.donut { --progress: 0deg; --overrun-progress: 0deg; --ring-color: var(--ring-accent, var(--normal)); border-radius: 50%; background: conic-gradient(var(--ring-color) var(--progress), var(--track) 0); position: relative; display: grid; place-items: center; }
 .donut--large { width: 112px; height: 112px; }
 .donut--small { width: 26px; height: 26px; }
-.donut--overrun { background: conic-gradient(var(--overrun) var(--overrun-progress), var(--normal) 0); box-shadow: none; }
-.donut--double { background: var(--overdue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--overdue) 28%, transparent); }
+.donut--overrun { background: conic-gradient(color-mix(in srgb, var(--ring-color) 65%, var(--ink)) var(--overrun-progress), var(--ring-color) 0); box-shadow: none; }
+.donut--double { background: color-mix(in srgb, var(--ring-color) 65%, var(--ink)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring-color) 28%, transparent); }
 .donut__center { position: absolute; left: 11%; top: 11%; width: 78%; height: 78%; border-radius: 50%; background: var(--paper); display: flex; align-items: center; justify-content: center; }
 .donut--small .donut__center { left: 22%; top: 22%; width: 56%; height: 56%; }
 .item-row:hover .donut__center { background: var(--hover); }
@@ -389,8 +389,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .settings-row--time { cursor: default; }
 .settings-row--time input { width: 120px; text-align: center; }
 .settings-footnote { margin: 24px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
-.panel-backdrop { position: fixed; top: var(--panel-viewport-top, 0); right: 0; left: 0; height: var(--panel-viewport-height, 100dvh); overflow: hidden; background: rgba(31,35,31,.38); z-index: 50; display: flex; justify-content: flex-end; backdrop-filter: blur(2px); }
-.detail-panel { width: min(620px, 100%); height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scroll-padding: 72px 0 calc(160px + env(safe-area-inset-bottom)); background: var(--white); padding: 56px 54px calc(48px + env(safe-area-inset-bottom)); position: relative; box-shadow: -12px 0 40px rgba(29,34,29,.1); animation: panel-in .24s ease-out; }
+.panel-backdrop { position: fixed; inset: 0; height: 100%; overflow: hidden; background: rgba(31,35,31,.38); z-index: 50; display: flex; justify-content: flex-end; backdrop-filter: blur(2px); }
+.detail-panel { width: min(620px, 100%); height: var(--panel-viewport-height, 100dvh); max-height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scroll-padding: 72px 0 calc(160px + env(safe-area-inset-bottom)); background: var(--white); padding: 56px 54px calc(48px + env(safe-area-inset-bottom)); position: relative; box-shadow: -12px 0 40px rgba(29,34,29,.1); animation: panel-in .24s ease-out; }
 @keyframes panel-in { from { transform: translateX(35px); opacity: .7; } }
 .close-button { position: absolute; right: 24px; top: 20px; border: 0; background: transparent; font-size: 31px; font-weight: 200; color: var(--muted); cursor: pointer; }
 .panel-heading { padding-bottom: 28px; border-bottom: 1px solid var(--line); }
@@ -496,3 +496,34 @@ input, select, textarea { border: 1px solid var(--button-border); background: va
   button { touch-action: manipulation; }
   .settings-row--time input { width: 132px; flex-shrink: 0; }
 }
+
+/* Editors use the same left-to-right rhythm as the dashboard cards. */
+.item-form { gap: 0; }
+.form-field { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); align-items: start; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.form-field__copy { padding-top: 10px; }
+.item-form .form-field__copy label, .form-field__copy strong { display: block; color: var(--ink); font-size: 13px; font-weight: 700; }
+.form-field__copy p { margin: 7px 0 0; color: var(--muted); font-size: 12px; font-weight: 400; line-height: 1.5; }
+.form-field__control { min-width: 0; }
+.form-field__control > input, .form-field__control > select, .form-field__control > textarea { width: 100%; max-width: 100%; }
+.form-field__control .field-pair { grid-template-columns: minmax(0, .7fr) minmax(0, 1fr); gap: 8px; }
+.item-form .visibility-fields { padding-top: 24px; gap: 16px; }
+.item-form .visibility-fields legend { padding-top: 24px; margin: 0; }
+.item-form .check-label { min-height: 36px; }
+.item-form .check-label input { flex: 0 0 20px; width: 20px; height: 20px; }
+.item-form .form-actions { margin-top: 20px; }
+@media (max-width: 760px) {
+  .form-field { grid-template-columns: minmax(0, .8fr) minmax(0, 1.3fr); gap: 14px; }
+  .form-field__copy p { font-size: 11px; }
+  .form-field__control input, .form-field__control select, .form-field__control textarea { padding: 11px 8px; }
+}
+
+:root { --ring-accent: #658b78; }
+:root[data-theme="dark"] { --ring-accent: #9fb1c5; }
+:root[data-theme="forest"] { --ring-accent: #83bc99; }
+:root[data-theme="clay"] { --ring-accent: #aa785e; }
+:root[data-theme="purple"] { --ring-accent: #7068d1; }
+:root[data-theme="dark-purple"] { --ring-accent: #afa9ec; }
+:root[data-theme="edgy"] { --ring-accent: #ff5ca8; }
+.field-help { margin: 0; font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--muted); }
+.form-field__control input[type="date"] { appearance: none; min-inline-size: 0; }
+.form-field__control input::-webkit-date-and-time-value { min-width: 0; text-align: left; }

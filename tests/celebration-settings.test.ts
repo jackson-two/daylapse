@@ -18,17 +18,29 @@ const celebration: TrackedItem = {
   createdAt: "2026-01-01", history: [],
 };
 
-test("dashboard windows distinguish legacy defaults, no limit, and today only", () => {
+test("enabled annual occasions remain on the dashboard beyond legacy windows", () => {
   const day = fromISO("2026-01-01");
+  // Retain stored settings for backwards compatibility without hiding dates.
   assert.equal(dashboardWindowDays(celebration), 60);
-  assert.equal(isDashboardVisible(celebration, day), false);
-  assert.equal(isDashboardVisible({ ...celebration, showOnMainWithinDays: null }, day), true);
-  const todayOnly = { ...celebration, showOnMainWithinDays: 0 };
-  assert.equal(isDashboardVisible(todayOnly, fromISO("2026-09-03")), false);
-  assert.equal(isDashboardVisible(todayOnly, fromISO("2026-09-04")), true);
-  for (const patch of [{ showOnDashboard: false }, { archived: true }, { deletedAt: "2026-01-01" }]) {
-    assert.equal(isDashboardVisible({ ...celebration, showOnMainWithinDays: null, ...patch }, day), false);
+  for (const source of ["birthday", "anniversary", "holiday"] as const) {
+    for (const window of [undefined, null, 0, 60]) {
+      const item = { ...celebration, source, showOnMainWithinDays: window };
+      assert.equal(isDashboardVisible(item, day), true);
+      assert.equal(isDashboardVisible(item, fromISO("2026-09-04")), true);
+      assert.equal(isDashboardVisible(item, fromISO("2026-09-05")), true);
+      for (const patch of [{ showOnDashboard: false }, { archived: true }, { deletedAt: "2026-01-01" }]) {
+        assert.equal(isDashboardVisible({ ...item, ...patch }, day), false);
+      }
+    }
   }
+  assert.equal(isDashboardVisible({ ...celebration, source: "holiday", holidayKey: "christmas", monthDay: undefined }, day), true);
+});
+
+test("ordinary fixed-date event dashboard windows still apply", () => {
+  const event = { ...celebration, source: undefined, monthDay: undefined, targetDate: "2026-09-04", showOnMainWithinDays: 0 };
+  assert.equal(isDashboardVisible(event, fromISO("2026-09-03")), false);
+  assert.equal(isDashboardVisible(event, fromISO("2026-09-04")), true);
+  assert.equal(isDashboardVisible({ ...event, showOnMainWithinDays: null }, fromISO("2026-01-01")), true);
 });
 
 test("birthday and anniversary settings survive create, edit, reload, and destination filtering", async (t) => {
