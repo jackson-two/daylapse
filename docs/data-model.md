@@ -86,3 +86,9 @@ voided completions, subscriptions, and access keys.
 See [operations](row-storage-operations.md) for API contracts, limits, migration,
 and recovery. Never deploy a pre-0007 Worker against new weekday-rule items;
 its validators cannot interpret that schedule type.
+
+## Purchasing
+
+Separate shopping tables preserve task/event storage and its recovery contract.
+See [purchasing data structures and transaction rules](purchasing.md#implementation-and-preservation)
+and [shared API/MCP contracts](purchasing-mcp.md). Migrations 0008 and 0009 are additive.

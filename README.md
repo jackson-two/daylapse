@@ -97,3 +97,10 @@ No original household data, credentials, or private Git history are included.
 
 Security reports use GitHub private vulnerability reporting; see
 [the security policy](SECURITY.md) for instructions and availability.
+
+## Shopping
+
+A persistent catalog, compact retailer comparisons, shared shopping list, purchase
+and price history, and optional authenticated agent tools are available in source.
+See the [purchasing guide](docs/purchasing.md) and [MCP setup](docs/purchasing-mcp.md).
+Existing installations need the additive migrations and a new deployment.

@@ -41,7 +41,12 @@ export async function accessResponse(request: Request, rawSettings: unknown, get
   if (!settings.accessTeamDomain || !settings.accessAudience) return denied(503, "Access is not configured.");
   const token = request.headers.get("cf-access-jwt-assertion");
   if (!token || token.length > 16384) return denied(401, "Household sign-in is required.");
-  try { await verifyAccessToken(token, settings, getKey); }
+  try {
+    const mcp = url.pathname === "/api/shopping/mcp";
+    if (mcp && !settings.purchasingMcp) return denied(403, "Purchasing MCP is not configured.");
+    const { payload } = await verifyAccessToken(token, mcp ? { ...settings, accessAudience: settings.purchasingMcp!.audience } : settings, getKey);
+    if (mcp && !settings.purchasingMcp!.clients.some((client) => client.clientId === payload.common_name)) return denied(403, "This machine client is not authorized.");
+  }
   catch { return denied(401, "Household sign-in is required."); }
   return null;
 }

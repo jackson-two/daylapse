@@ -527,3 +527,5 @@ input, select, textarea { border: 1px solid var(--button-border); background: va
 .field-help { margin: 0; font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--muted); }
 .form-field__control input[type="date"] { appearance: none; min-inline-size: 0; }
 .form-field__control input::-webkit-date-and-time-value { min-width: 0; text-align: left; }
+
+.shopping-nav-link { display:inline-flex; align-items:center; padding:12px 0; color:var(--ink); text-decoration:none; font-size:13px; font-weight:600; }

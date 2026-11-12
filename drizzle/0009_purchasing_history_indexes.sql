@@ -1,0 +1,2 @@
+CREATE INDEX `shopping_outcomes_latest` ON `shopping_outcomes` (`entry_id`,`offering_id`,`occurred_at`,`created_at`,`id`) WHERE "shopping_outcomes"."reversed_at" IS NULL;--> statement-breakpoint
+CREATE INDEX `shopping_prices_latest` ON `shopping_prices` (`offering_id`,`location_id`,`observed_at`,`created_at`,`id`);

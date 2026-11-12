@@ -88,3 +88,26 @@ claim offline editing, per-person permissions, or native DAKboard integration.
 - A different household member's login and optional physical-device checks still
   require completion. Notifications and the display remain disabled in the test
   installation.
+
+## Purchasing feature verification
+
+The purchasing implementation is tested locally with synthetic data, including
+MCP operations and populated upgrade preservation. It is not a claim of a live
+household release. Owner-authorized migration/deployment and live Access
+service-token checks remain release steps. Physical iPhone Home Screen behavior
+and vendor-specific connector compatibility require device/client validation.
+The public repository has no native iOS or TestFlight build. See
+[purchasing](purchasing.md) and [agent setup](purchasing-mcp.md).
+
+Local feature validation: 91 passing tests (including 9 purchasing suites), lint,
+TypeScript, privacy check, binding regeneration and clean npm install. Built Worker
+HTTP checks verify shopping rendering, MCP initialization/discovery/schema/list
+queries and foreign-origin denial. Responsive browser checks cover independent
+quantities, one-card expansion, offscreen collapse, purchase/undo, unavailable and
+skipped outcomes, catalog creation and store filters. These use synthetic data.
+
+The November dependency audit passes the high-severity gate after compatible
+React/Next/Vite/Zod and transitive security updates. Fourteen moderate findings
+remain in existing development/image tooling; no major framework/toolchain upgrade
+is included. npm and pnpm overrides are aligned; pnpm's overrides now live in
+pnpm-workspace.yaml because current pnpm ignores that field in package.json.
