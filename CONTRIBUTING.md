@@ -34,7 +34,8 @@ Matching overrides pin Miniflare's undici to 7.30.2 to address the November
 npm and pnpm overrides aligned; remove them when the tested Cloudflare toolchain
 depends on a patched undici itself. Miniflare also pins sharp 0.35.5 for its
 patched image dependencies, without changing the shared workerd version.
-CI includes `npm audit --audit-level=high`.
+Both package managers also use source-map-js 1.2.2 and the direct patched Zod
+version for transitive consumers. CI includes `npm audit --audit-level=high`.
 
 ## Repository map
 

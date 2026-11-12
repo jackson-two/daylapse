@@ -60,6 +60,8 @@
     },
     "vinext": {
       "image-size": "2.0.4"
-    }
+    },
+    "source-map-js": "1.2.2",
+    "zod": "$zod"
   }
 }
