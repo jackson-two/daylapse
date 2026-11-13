@@ -11,8 +11,14 @@ export const installationSettingsSchema = z.strictObject({
   }, "Use an IANA timezone"),
   notifications: z.boolean(),
   localDevelopment: z.boolean(),
+  purchasingMcp: z.strictObject({
+    audience: z.string().regex(/^[a-f0-9]{64}$/),
+    clients: z.array(z.strictObject({ clientId: z.string().min(1).max(256), permission: z.enum(["read", "write"]) })).max(20),
+  }).optional(),
 }).refine((value) => !value.displayHostname || value.familyHostname !== value.displayHostname,
-  "Family and display hostnames must differ");
+  "Family and display hostnames must differ")
+  .refine((value) => !value.purchasingMcp || value.purchasingMcp.audience !== value.accessAudience,
+    "Use a separate Access application audience scoped to the MCP endpoint");
 
 export type InstallationSettings = z.infer<typeof installationSettingsSchema>;
 

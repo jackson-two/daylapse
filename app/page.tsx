@@ -724,6 +724,7 @@ export default function Home() {
 
       {screen !== "notifications" && (
         <nav className="screen-nav" aria-label="Daylapse sections">
+          <a href="/shopping" className="shopping-nav-link">Shopping</a>
           <button className={screen === "dashboard" ? "active" : ""} onClick={() => selectScreen("dashboard")}>Dashboard</button>
           <button className={screen === "holidays" ? "active" : ""} onClick={() => selectScreen("holidays")}>Holidays</button>
           <button className={screen === "celebrations" ? "active" : ""} onClick={() => selectScreen("celebrations")}>Birthdays &amp; Anniversaries</button>

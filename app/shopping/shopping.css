@@ -1,0 +1,443 @@
+.shopping-shell {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  color: var(--ink);
+}
+.shopping-shell button,
+.shopping-dialog button {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--white);
+  color: var(--ink);
+  min-height: 42px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  touch-action: manipulation;
+}
+.shopping-shell button:disabled,
+.shopping-dialog button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.shopping-shell button.primary-action,
+.shopping-dialog button.primary-action {
+  background: var(--action-bg);
+  color: var(--action-fg);
+  border-color: var(--action-bg);
+}
+.shopping-shell input,
+.shopping-shell select,
+.shopping-shell textarea,
+.shopping-dialog input,
+.shopping-dialog select,
+.shopping-dialog textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  min-height: 44px;
+  font-size: 16px;
+  border: 1px solid var(--button-border);
+  border-radius: 4px;
+  color: var(--ink);
+  background: var(--input-bg);
+}
+.shopping-shell label,
+.shopping-dialog label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.shopping-shell a,
+.shopping-dialog a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+.shopping-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+.shopping-top h1 {
+  margin: 0;
+  font-size: 26px;
+}
+.shopping-top > span {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+.shopping-top .brand {
+  text-decoration: none;
+  font-size: 16px;
+}
+.shopping-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 14px 0;
+  overflow-x: auto;
+}
+.shopping-tabs button {
+  white-space: nowrap;
+  border-color: transparent;
+}
+.shopping-tabs [aria-current="page"] {
+  border-color: var(--ink);
+  font-weight: 700;
+}
+.shopping-toolbar,
+.shopping-section-heading {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 18px 0;
+}
+.shopping-section-heading h2,
+.shopping-section-heading h3 {
+  margin: 0;
+}
+.shopping-section-heading h2 {
+  font-size: 22px;
+}
+.shopping-search {
+  flex: 1;
+}
+.shopping-store-tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 0;
+}
+.shopping-store-tabs button {
+  white-space: nowrap;
+}
+.shopping-store-tabs [aria-pressed="true"] {
+  box-shadow: inset 0 -2px 0 var(--ink);
+  font-weight: 700;
+}
+.store-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--store-color, var(--ink));
+  border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.shopping-branch {
+  max-width: 300px;
+  margin: 12px 0;
+}
+.shopping-muted {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.shopping-item {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+  overflow-anchor: none;
+}
+.shopping-item-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.shopping-shell .shopping-item-name {
+  font-size: 16px;
+  font-weight: 700;
+  border: 0;
+  padding: 3px 0;
+  text-align: left;
+  background: transparent;
+}
+.shopping-shell .shopping-remove {
+  border: 0;
+  font-size: 11px;
+  background: transparent;
+}
+.shopping-microcards {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 1px 7px;
+  overscroll-behavior-x: contain;
+}
+.shopping-shell .shopping-microcard {
+  flex: 0 0 152px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-top: 3px solid var(--store-color);
+  font-size: 12px;
+}
+.shopping-microcard[aria-expanded="true"] {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+.shopping-microcard strong {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.shopping-microcard b {
+  font-size: 15px;
+}
+.shopping-microcard small {
+  color: var(--muted);
+  font-size: 10px;
+}
+.shopping-expanded {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--store-color);
+  background: var(--white);
+  padding: 16px;
+  margin: 8px 0 4px;
+  overflow-anchor: none;
+}
+.shopping-expanded h3 {
+  font-size: 16px;
+}
+.shopping-expanded .shopping-section-heading {
+  margin-top: 0;
+}
+.shopping-expanded p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.shopping-quantity {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 0;
+}
+.shopping-quantity > span {
+  margin-right: auto;
+  font-size: 13px;
+}
+.shopping-quantity button {
+  min-width: 46px;
+  min-height: 46px;
+  font-size: 24px;
+}
+.shopping-quantity output {
+  min-width: 26px;
+  text-align: center;
+  font-weight: 700;
+}
+.shopping-outcomes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+.shopping-outcomes button {
+  min-height: 48px;
+  padding: 8px;
+}
+.shopping-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.shopping-empty {
+  padding: 45px 10px;
+  text-align: center;
+  color: var(--muted);
+}
+.shopping-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.shopping-catalog article,
+.shopping-management,
+.shopping-history article {
+  border: 1px solid var(--line);
+  background: var(--white);
+  padding: 16px;
+}
+.shopping-catalog small {
+  display: block;
+  color: var(--muted);
+}
+.shopping-management {
+  margin: 20px 0;
+}
+.shopping-record {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+  font-size: 13px;
+}
+.shopping-record p {
+  color: var(--muted);
+}
+.shopping-error {
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid var(--overdue);
+  background: var(--white);
+  font-size: 13px;
+}
+.shopping-error button,
+.shopping-error a {
+  margin: 5px;
+}
+.shopping-error pre {
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.shopping-dialog {
+  width: min(620px, calc(100% - 24px));
+  max-height: 85dvh;
+  border: 1px solid var(--line);
+  padding: 22px;
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink);
+  margin: auto;
+}
+.shopping-dialog::backdrop {
+  background: rgba(20, 23, 20, 0.55);
+}
+.shopping-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.shopping-dialog h2 {
+  margin: 0;
+  font-size: 22px;
+}
+.shopping-dialog header button {
+  font-size: 24px;
+}
+.shopping-dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.shopping-dialog p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.shopping-dialog footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.shopping-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.shopping-shell .shopping-check,
+.shopping-dialog .shopping-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.shopping-check input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  min-height: 0;
+  flex: 0 0 22px;
+}
+.shopping-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.shopping-summary {
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  margin: 15px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.shopping-history {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+.shopping-history article > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 15px;
+  font-size: 13px;
+}
+.shopping-history article p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .shopping-shell {
+    padding: 0 14px 60px;
+  }
+  .shopping-top {
+    gap: 12px;
+  }
+  .shopping-top h1 {
+    font-size: 22px;
+  }
+  .shopping-top .brand {
+    font-size: 13px;
+  }
+  .shopping-top .brand-mark {
+    display: none;
+  }
+  .shopping-top > span {
+    font-size: 11px;
+  }
+  .shopping-tabs {
+    gap: 0;
+  }
+  .shopping-tabs button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .shopping-toolbar {
+    gap: 10px;
+  }
+  .shopping-microcard {
+    scroll-snap-align: start;
+  }
+  .shopping-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .shopping-dialog {
+    padding: 16px;
+  }
+  .shopping-management {
+    padding: 12px;
+  }
+  .shopping-expanded {
+    padding: 12px;
+  }
+  .shopping-outcomes button {
+    font-size: 12px;
+  }
+}

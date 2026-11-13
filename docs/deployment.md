@@ -174,3 +174,10 @@ rows if it refuses. Local 403: use loopback HTTP, never a public tunnel.
 Permission errors: check account and product scope. Wrangler OAuth may not manage
 Access. Local socket failures need loopback permission. Neither justifies
 weakening production authentication or deleting data.
+
+## Optional purchasing agents
+
+Purchasing UI uses existing household sign-in. Remote agent access is disabled
+until the owner configures a separate path-scoped Access application, service
+token and client permission. Follow [purchasing MCP setup](purchasing-mcp.md).
+Do not change the all-path household policy or reuse the display key.

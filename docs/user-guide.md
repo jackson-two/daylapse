@@ -227,3 +227,8 @@ delete/reinstall the app or reconnect notifications for an ordinary deployment.
 
 The service worker handles push and notification clicks. It does not cache pages
 or provide offline editing. A saved Home Screen icon is not an offline data copy.
+
+## Shopping and purchasing
+
+Open **Shopping** from the dashboard for the shared shopping list, catalog,
+retailers and history. See the [complete purchasing guide](purchasing.md).

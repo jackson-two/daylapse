@@ -23,12 +23,13 @@
   },
   "dependencies": {
     "@block65/webcrypto-web-push": "2.0.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "drizzle-orm": "0.45.2",
     "jose": "6.2.12",
-    "next": "16.3.6",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "zod": "^4.4.3"
+    "next": "16.4.6",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.58.0",
@@ -41,29 +42,26 @@
     "drizzle-kit": "0.31.10",
     "esbuild": "0.28.1",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.4.6",
     "miniflare": "5.20260921.0-alpha",
-    "react-server-dom-webpack": "19.2.8",
+    "react-server-dom-webpack": "19.2.9",
     "tailwindcss": "4.3.3",
     "tsx": "^4.23.15",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
-    "vite": "8.2.2",
+    "vite": "8.2.6",
     "wrangler": "4.137.0"
   },
   "type": "module",
   "overrides": {
     "miniflare": {
-      "undici": "7.30.0"
+      "undici": "7.30.2",
+      "sharp": "0.35.5"
     },
     "vinext": {
       "image-size": "2.0.4"
-    }
-  },
-  "pnpm": {
-    "overrides": {
-      "miniflare>undici": "7.30.0",
-      "vinext>image-size": "2.0.4"
-    }
+    },
+    "source-map-js": "1.2.2",
+    "zod": "$zod"
   }
 }

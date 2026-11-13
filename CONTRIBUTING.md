@@ -24,14 +24,18 @@ are explicit test dependencies. Tests read compatibility settings from the local
 older behavior. Regenerate binding types using `npx wrangler types`. Optional
 push secrets are separately typed in `env.d.ts`.
 
-The npm and pnpm overrides keep vinext's image-size dependency on the patched
+The npm overrides in package.json and pnpm overrides in pnpm-workspace.yaml
+keep vinext's image-size dependency on the patched
 2.0.4 release without changing frameworks. Keep these overrides in sync; remove
 both when a tested vinext update includes a patched image-size dependency.
 
-Matching overrides pin Miniflare's undici to 7.30.0 to address the September
+Matching overrides pin Miniflare's undici to 7.30.2 to address the November
 2026 security advisories without changing the shared workerd version. Keep the
 npm and pnpm overrides aligned; remove them when the tested Cloudflare toolchain
-depends on a patched undici itself. CI includes `npm audit --audit-level=high`.
+depends on a patched undici itself. Miniflare also pins sharp 0.35.5 for its
+patched image dependencies, without changing the shared workerd version.
+Both package managers also use source-map-js 1.2.2 and the direct patched Zod
+version for transitive consumers. CI includes `npm audit --audit-level=high`.
 
 ## Repository map
 

@@ -57,6 +57,20 @@
       "when": 1788633003874,
       "tag": "0007_condemned_captain_flint",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1794514533433,
+      "tag": "0008_household_purchasing",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1794515075108,
+      "tag": "0009_purchasing_history_indexes",
+      "breakpoints": true
     }
   ]
 }
