@@ -111,3 +111,25 @@ React/Next/Vite/Zod and transitive security updates. Fourteen moderate findings
 remain in existing development/image tooling; no major framework/toolchain upgrade
 is included. npm and pnpm overrides are aligned; pnpm's overrides now live in
 pnpm-workspace.yaml because current pnpm ignores that field in package.json.
+
+## Purchasing MCP discoverability (November 13, 2026)
+
+MCP version 1.1.0 adds field descriptions, generated create/partial-update and
+response schemas, entity joins, every query view, operation-specific version
+rules, retry/retention guidance, price provenance and executable synthetic recipes.
+Service validation errors now include `invalid_input` plus field paths. Generic
+partial-save input remains compatible; omitted saved values are preserved.
+
+Validation: clean locked dependency install, lint, TypeScript, privacy scan,
+production build and all 93 standard tests passed. Eleven purchasing tests include
+MCP discovery, all six published recipes, every query response, exact retries,
+conflicts, validation paths, paging, authentication and uncertain commits. The
+high-severity dependency audit passes; 14 existing moderate findings remain.
+Deployment packaging passed the supported dry run. No database migration, business
+rule, authentication/configuration, native or display change is included.
+
+Publishing and authenticated live discovery are separate installation-specific
+steps. Deploy through the existing installation runbook, preserving its settings;
+refresh client discovery after publication. An installation with purchasing MCP
+disabled remains disabled. Do not change access policy or client permissions as
+part of this metadata update. No production write is required for verification.

@@ -73,3 +73,15 @@ or put household data, credentials, or private URLs into a PR.
 Include the problem, resulting behavior, and relevant validation in pull requests.
 Security issues should follow [SECURITY.md](SECURITY.md), not a public issue.
 Contributions are provided under the project's [MIT License](LICENSE).
+
+## Purchasing MCP contract documentation
+
+Purchasing validation lives in `lib/purchasing/schema.ts`. Its Zod descriptions
+feed MCP discovery; `contract.ts`, `responses.ts` and `recipes.ts` supply the
+relationship, response and workflow reference. Preserve partial `save.data`
+updates: omitted fields must retain saved values, not apply creation defaults.
+
+After changing the contract, run `node --import tsx scripts/purchasing-docs.ts`
+to regenerate the marked reference in `docs/purchasing-mcp.md`. The contract test
+checks documentation drift and runs the published recipes through MCP using a
+disposable local database. Never run synthetic recipes against household data.

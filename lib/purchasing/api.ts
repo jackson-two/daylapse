@@ -36,6 +36,7 @@ export function failure(error: unknown) {
     return json(
       {
         error: "Check the supplied fields.",
+        code: "invalid_input",
         issues: error.issues.map(({ path, message }) => ({ path, message })),
       },
       422,
